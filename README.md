@@ -1,2 +1,3 @@
 # FastAPI_blog
-Backend блога на FastAPI 
+Backend блога на FastAPI + SQLAlchemy
+
