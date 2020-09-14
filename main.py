@@ -1,5 +1,5 @@
-from fastapi import FastAPI, Query, Path
-from schemas import Book
+from fastapi import FastAPI, Query, Path, Body
+from schemas import Book, Author
 from typing import List
 
 
@@ -20,8 +20,14 @@ def get_user_item(pk: int, item: str):
     return {"user": pk, "item": item}
 
 @app.post('/book/')
-def create_book(item: Book):
-    return item
+def create_book(item: Book, author: Author, quantity: int = Body(...)):
+    # Body валидация post запросов
+    return {"item": item, "author": author, "quantity": quantity}
+
+@app.post('/author')
+def create_author(author: Author = Body(..., embed=True)):
+    # embed - указание заголовка запроса
+    return {"author": author}
 
 @app.get('/book')
 def get_book(q: str = Query(..., min_length=2, max_length=5, description='Search book', regex=r'[a-z]{2,5}')):
@@ -42,3 +48,4 @@ def get_single_book(pk: int = Path(..., gt=1, le=10), pages: int = Query(None, g
     # le=10 - pk не должно быть более 10
     return {"pk": pk,
             "pges": pages}
+

@@ -4,8 +4,12 @@ from typing import List
 #Валидация данных. Возвращает объект
 
 class Genre(BaseModel):
-    name:str
+    name: str
 
+class Author(BaseModel):
+    first_name: str
+    last_name: str
+    age: int
 
 class Book(BaseModel):
     title: str
