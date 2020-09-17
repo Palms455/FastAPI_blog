@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Query, Path, Body
-from schemas import Book, Author
+from schemas import Book, Author, BookOut
 from typing import List
 
 
@@ -23,6 +23,14 @@ def get_user_item(pk: int, item: str):
 def create_book(item: Book, author: Author, quantity: int = Body(...)):
     # Body валидация post запросов
     return {"item": item, "author": author, "quantity": quantity}
+
+@app.post('/new_book')
+def new_book(item: Book, response_model=Book, response_model_exclude_unset=True):
+    # response_model_exclude_unset - не возвращаются пустые необязательные данные
+    # response_model_exclude = {"pages", "date"} = исключение свойств
+    # response_model_exclude = {"pages", "date"} = отображение только указ. свойств
+
+    return item
 
 @app.post('/author')
 def create_author(author: Author = Body(..., embed=True)):
